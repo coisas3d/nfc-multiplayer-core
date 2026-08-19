@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Emulador - Cartucho NFC</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #000;">
+    
+    <!-- Container onde o jogo vai rodar em tela cheia -->
+    <div style="width: 100vw; height: 100vh; max-width: 100%; max-height: 100%;">
+        <div id="game"></div>
+    </div>
+
+    <script>
+        // 1. Pega as instruções que vieram do Lobby (app.js)
+        const urlParams = new URLSearchParams(window.location.search);
+        const jogo = urlParams.get('jogo');
+        const roomCode = urlParams.get('room');
+        const isHost = urlParams.get('isHost') === 'true';
+
+        // 2. Inteligência de Seleção de Console
+        // Se no futuro você adicionar novos jogos, basta mapear o nome do cartucho e o console aqui
+        const mapeamentoConsoles = {
+            'topgear': 'snes',
+            'finalfight': 'snes',
+            'cadillacs': 'arcade'
+        };
+        const consoleAtual = mapeamentoConsoles[jogo] || 'snes'; // Se não achar, tenta carregar como SNES
+
+        // 3. Configuração do EmulatorJS
+        window.EJS_player = '#game';
+        window.EJS_core = consoleAtual;
+        window.EJS_gameUrl = `roms/${jogo}.zip`; // O jogo deve estar compactado em .zip nesta pasta
+        window.EJS_pathtodata = 'https://cdn.jsdelivr.net/gh/ethanaobrien/emulatorjs@main/data/';
+        
+        // Desativa botões desnecessários na tela do celular
+        window.EJS_Buttons = {
+            playPause: false,
+            restart: false,
+            mute: false,
+            settings: true,
+            fullscreen: false,
+            saveState: false,
+            loadState: false,
+            screenRecord: false,
+            gamepad: true,
+            cheat: false,
+            volume: false,
+            saveSavFiles: false,
+            loadSavFiles: false,
+            quickSave: false,
+            quickLoad: false,
+            screenshot: false,
+            cacheManager: false
+        };
+
+        // 4. Conexão Multiplayer
+        if (roomCode) {
+            window.EJS_netplayUrl = 'wss://nfc-server-osgz.onrender.com';
+            window.EJS_netplayRoom = roomCode;
+            console.log(`Conectando à sala ${roomCode} via Render Server...`);
+        }
+    </script>
+    
+    <!-- Carrega o motor principal da internet -->
+    <script src="https://cdn.jsdelivr.net/gh/ethanaobrien/emulatorjs@main/data/loader.js"></script>
+</body>
+</html>
