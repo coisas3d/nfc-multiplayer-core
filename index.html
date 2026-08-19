@@ -1,28 +1,41 @@
-Cartucho NFC
-
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cartucho NFC</title>
+</head>
+<body style="background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; padding-top: 20px;">
     
-    
+    <div id="container">
+        <!-- O nome do jogo será injetado aqui -->
+        <h1 id="game-title">Lendo Cartucho...</h1>
         
-        Lendo Cartucho...
-        
-        
-        
-            JOGAR SOLO
-            MULTIPLAYER
-        
+        <!-- MENU PRINCIPAL -->
+        <div id="main-menu" style="margin-top: 30px;">
+            <button id="btn-solo" style="padding: 15px; font-size: 18px; width: 80%; margin-bottom: 15px; background: #e60000; color: white; border: none; border-radius: 8px;">JOGAR SOLO</button>
+            <button id="btn-multi-menu" style="padding: 15px; font-size: 18px; width: 80%; background: #0066cc; color: white; border: none; border-radius: 8px;">MULTIPLAYER</button>
+        </div>
 
-        
-        
-            Modo Cooperativo / Versus
+        <!-- MENU MULTIPLAYER (Oculto inicialmente) -->
+        <div id="multiplayer-menu" style="display: none; margin-top: 30px;">
+            <p style="color: #aaa; margin-bottom: 20px;">Modo Cooperativo / Versus</p>
             
-            CRIAR SALA (HOST)
+            <button id="btn-create" style="padding: 15px; font-size: 18px; width: 80%; margin-bottom: 15px; background: #28a745; color: white; border: none; border-radius: 8px;">CRIAR SALA (HOST)</button>
             
-            OU
+            <p style="margin: 15px 0; color: #666;">OU</p>
             
+            <input type="text" id="room-code" placeholder="CÓDIGO DA SALA" maxlength="6" style="padding: 15px; font-size: 18px; width: 70%; text-align: center; text-transform: uppercase; margin-bottom: 10px; border-radius: 8px; border: 1px solid #555; background: #111; color: #0f0;">
+            <br>
+            <button id="btn-join" style="padding: 15px; font-size: 18px; width: 80%; background: #0066cc; color: white; border: none; border-radius: 8px;">ENTRAR NA SALA</button>
             
-            
-            ENTRAR NA SALA
-            
-            
-            Voltar
+            <br><br>
+            <button id="btn-back" style="padding: 10px; margin-top: 20px; background: #555; color: white; border: none; border-radius: 5px;">Voltar</button>
+        </div>
+
+        <p id="status-message" style="margin-top: 20px; color: #ffcc00;"></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
