@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>COISAS 3D - Cartucho NFC Multiplayer</title>
+    <style>
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: #000; 
+            overflow: hidden; 
+            touch-action: none; 
+        }
+        #game-container { 
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+            display: flex; justify-content: center; align-items: center; 
+        }
+        #game { width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="game"></div>
+    </div>
+
+    <script>
+        // =====================================================================
+        // INTERCEPTAÇÃO DE REDE E INJEÇÃO DO SERVIDOR TURN
+        // =====================================================================
+        // Forçamos o navegador a utilizar as chaves da sua infraestrutura Metered.
+        // Isso impede que o emulador tente usar servidores mortos e garante a 
+        // travessia do bloqueio 4G/5G das operadoras de celular.
+        
+        const OriginalRTCPeerConnection = window.RTCPeerConnection;
+        window.RTCPeerConnection = function(config) {
+            const customConfig = {
+                iceServers: [
+                    { urls: "stun:stun.relay.metered.ca:80" },
+                    { urls: "turn:standard.relay.metered.ca:80?transport=tcp", username: "a167bc8d42a6ccee918e9314", credential: "IEVQ8fMpOdhm/Z9w" },
+                    { urls: "turn:standard.relay.metered.ca:443", username: "a167bc8d42a6ccee918e9314", credential: "IEVQ8fMpOdhm/Z9w" },
+                    { urls: "turns:standard.relay.metered.ca:443?transport=tcp", username: "a167bc8d42a6ccee918e9314", credential: "IEVQ8fMpOdhm/Z9w" }
+                ]
+            };
+            return new OriginalRTCPeerConnection(customConfig);
+        };
+
+        // =====================================================================
+        // NÚCLEO DO EMULADOR
+        // =====================================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const jogo = urlParams.get('jogo') || 'streetfighteralpha2';
+
+        const mapeamentoConsoles = {
+            'streetfighteralpha2': 'snes',
+            'topgear': 'snes',
+            'cadillacs': 'arcade'
+        };
+        const consoleAtual = mapeamentoConsoles[jogo] || 'snes';
+
+        window.EJS_player = '#game';
+        window.EJS_core = consoleAtual;
+        window.EJS_gameUrl = `roms/${jogo}.zip`;
+        
+        // Uso estrito da branch Nightly para manter o Netplay nativo ativo
+        window.EJS_pathtodata = 'https://cdn.emulatorjs.org/nightly/data/';
+
+        window.EJS_Buttons = {
+            playPause: false, restart: false, mute: false, settings: true,
+            fullscreen: false, saveState: false, loadState: false, screenRecord: false,
+            gamepad: true, cheat: false, volume: false, saveSavFiles: false,
+            loadSavFiles: false, quickSave: false, quickLoad: false, screenshot: false,
+            cacheManager: false,
+            netplay: true
+        };
+    </script>
+    
+    <script src="https://cdn.emulatorjs.org/nightly/data/loader.js"></script>
+</body>
+</html>
