@@ -5,53 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Emulador - Cartucho NFC</title>
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000;
-            overflow: hidden;
-            touch-action: none;
-        }
-        #game-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #game {
-            width: 100%;
-            height: 100%;
-        }
-        #room-info {
-            display: none;
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.85);
-            color: #0f0;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-family: monospace;
-            z-index: 9999;
-            border: 1px solid #0f0;
-            text-align: center;
-            pointer-events: none;
-        }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; background-color: #000; overflow: hidden; touch-action: none; }
+        #game-container { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; align-items: center; }
+        #game { width: 100%; height: 100%; }
     </style>
 </head>
 <body>
-
-    <div id="room-info">
-        SALA MULTIPLAYER<br>
-        <span id="display-room-code" style="font-size: 22px; font-weight: bold; letter-spacing: 2px;"></span>
-    </div>
 
     <div id="game-container">
         <div id="game"></div>
@@ -60,23 +19,10 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const jogo = urlParams.get('jogo');
-        const roomCode = urlParams.get('room');
-        const isHost = urlParams.get('isHost') === 'true';
 
         const mapeamentoConsoles = {
-            'topgear': 'snes',
-            'finalfight': 'snes',
-            'finalfight3': 'snes',
             'streetfighteralpha2': 'snes',
-            'supermariokart': 'snes',
-            'tmntturtlesintime': 'snes',
-            'ultimatemortalkombat3': 'snes',
-            'gooftroop': 'snes',
-            'fzero': 'snes',
-            'superbomberman4': 'snes',
-            'rocknrollracing': 'snes',
-            'aerofighters': 'snes',
-            'powerrangersthemovie': 'snes',
+            'topgear': 'snes',
             'cadillacs': 'arcade'
         };
         const consoleAtual = mapeamentoConsoles[jogo] || 'snes';
@@ -84,39 +30,19 @@
         window.EJS_player = '#game';
         window.EJS_core = consoleAtual;
         window.EJS_gameUrl = `roms/${jogo}.zip`;
-        
-        // Aponta para a versão com Netplay compilado e funcional
         window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
 
+        // Aponta para o nosso novo servidor PeerJS no Render
+        window.EJS_netplayUrl = 'https://nfc-server-osgz.onrender.com/peerjs/';
+
         window.EJS_Buttons = {
-            playPause: false,
-            restart: false,
-            mute: false,
-            settings: true,
-            fullscreen: false,
-            saveState: false,
-            loadState: false,
-            screenRecord: false,
-            gamepad: true,
-            cheat: false,
-            volume: false,
-            saveSavFiles: false,
-            loadSavFiles: false,
-            quickSave: false,
-            quickLoad: false,
-            screenshot: false,
+            playPause: false, restart: false, mute: false, settings: true,
+            fullscreen: false, saveState: false, loadState: false, screenRecord: false,
+            gamepad: true, cheat: false, volume: false, saveSavFiles: false,
+            loadSavFiles: false, quickSave: false, quickLoad: false, screenshot: false,
             cacheManager: false,
-            netplay: true
+            netplay: true // Botão nativo de rede ativado
         };
-
-        if (roomCode) {
-            window.EJS_netplayUrl = 'wss://nfc-server-osgz.onrender.com';
-            window.EJS_netplayRoom = roomCode;
-            window.EJS_netplayPlayer = isHost ? 1 : 2;
-
-            document.getElementById('room-info').style.display = 'block';
-            document.getElementById('display-room-code').innerText = roomCode;
-        }
     </script>
     
     <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
