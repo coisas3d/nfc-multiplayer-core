@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Emulador - Cartucho NFC</title>
+    <title>Emulador - Cartucho NFC Multiplayer</title>
     <style>
         html, body { 
             margin: 0; 
@@ -35,8 +35,8 @@
         };
         const core = mapeamentoCores[jogo] || 'snes9x';
 
-        // Constrói a URL absoluta da ROM no seu repositório correto
-        const romUrl = `https://coisas3d.github.io/nfc-fita-k7/roms/${jogo}.zip`;
+        // Constrói a URL absoluta da ROM apontando para o repositório multiplayer correto
+        const romUrl = `https://coisas3d.github.io/nfc-multiplayer-core/roms/${jogo}.zip`;
 
         // Aciona o motor WebRetro passando o sistema e injetando a sua ROM
         const webretroUrl = `https://webretro.github.io/webretro/?core=${core}&rom=${encodeURIComponent(romUrl)}`;
