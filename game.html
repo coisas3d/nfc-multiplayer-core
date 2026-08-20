@@ -32,13 +32,16 @@
         window.EJS_gameUrl = `roms/${jogo}.zip`;
         window.EJS_pathtodata = 'https://cdn.emulatorjs.org/stable/data/';
 
+        // Aponta EXATAMENTE para a raiz do seu servidor
+        window.EJS_netplayUrl = 'https://nfc-server-osgz.onrender.com';
+
         window.EJS_Buttons = {
             playPause: false, restart: false, mute: false, settings: true,
             fullscreen: false, saveState: false, loadState: false, screenRecord: false,
             gamepad: true, cheat: false, volume: false, saveSavFiles: false,
             loadSavFiles: false, quickSave: false, quickLoad: false, screenshot: false,
             cacheManager: false,
-            netplay: true // Botão nativo de rede ativado
+            netplay: true
         };
     </script>
     
